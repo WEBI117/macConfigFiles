@@ -4,6 +4,12 @@ Plug 'scrooloose/nerdtree'
 Plug 'itchyny/lightline.vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'neovim/nvim-lspconfig'
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'mhartington/oceanic-next'
+Plug 'yuezk/vim-js'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'hrsh7th/nvim-compe'
+"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 call plug#end()
 
 "Color theme
@@ -19,8 +25,10 @@ endif
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set background=dark
-colo palenight
-"hi Normal guibg=NONE ctermbg=NONE
+colorscheme palenight
+hi Normal guibg=None ctermbg=NONE
+"For paleNight only
+"hi Normal guibg=#1f2335 ctermbg=NONE
 
 "Basic
 let mapleader = ","
@@ -33,6 +41,27 @@ set expandtab
 set hlsearch
 set ttimeoutlen=100
 
+"LightLine Settings.
+set noshowmode
+set laststatus=2
+"let g:lightline = { 'colorscheme': 'palenight' }
+let g:lightline = { 'colorscheme': 'tokyonight' }
+
+"Nerd-Tree Mappings.
+nnoremap <F3> :NERDTreeToggle<CR>
+
+"Deoplete Settings
+let g:deoplete#enable_at_startup = 1
+
+"NVIM LSP Settings
+lua << EOF
+require'lspconfig'.tsserver.setup{}
+EOF
+
+"Source lua files.
+luado require('compeSettings') 
+luado require('lspConfigSettings') 
+
 "Vimrc edditing Mappings
 nnoremap <leader>sr :source $MYVIMRC<CR>
 nnoremap <leader>er :e! $MYVIMRC<CR>
@@ -40,10 +69,10 @@ nnoremap <leader>er :e! $MYVIMRC<CR>
 "Window splits Mappings
 nnoremap <leader>ss :vsp<CR>
 nnoremap <leader>sv :sp<CR>
-nnoremap <leader>h <C-w>h
-nnoremap <leader>j <C-w>j
-nnoremap <leader>k <C-w>k
-nnoremap <leader>l <C-w>l
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 nnoremap <S-Up> <C-w>10+
 nnoremap <S-down> <C-w>10-
 nnoremap <S-right> <C-w>10>
@@ -57,29 +86,7 @@ nnoremap <left> :tabprevious<CR>
 
 " General Mappings
 nnoremap <leader><Space> :noh<CR>
-
-"LightLine Settings.
-set noshowmode
-set laststatus=2
-let g:lightline = { 'colorscheme': 'palenight' }
-
-
 "ToDo
 " Persistent visual mode selections during move commands
 " Linting Autocompletion and usages
-"To Do...
-"Configure hotkeys for nerdtree.
-"Nerd-Tree Mappings.
-nnoremap <F3> :NERDTreeToggle<CR>
 
-"set runtimepath^=~/.vim runtimepath+=~/.vim/after
-"let &packpath = &runtimepath
-"
-"command! Evrc :e ~/.vimrc
-"command! Svrc :source ~/.vimrc | :source $MYVIMRC
-"map <leader>ee :Evrc<CR>
-"map <leader>ss :Svrc<CR>
-
-"Source lua files.
-" Write settings for lsp config in lua
-luado require('lspConfigSettings') 
